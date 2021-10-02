@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import { firebase, firestore } from "../../plugins/firebase"
-import { DocsPager } from "../../interfaces"
+// import { DocsPager } from "../../interfaces"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const doc2data = <T = any>(
@@ -23,40 +23,40 @@ export const docRef2data = async (
   }
 }
 
-export const getCollection = async (
-  _collectionName: string,
-  _page: string | string = "1",
-  _limit = 50,
-) => {
-  const pageSize = _limit
-  let skip = (Number(_page) - 1) * pageSize || 1
-  if (skip > 1) skip = skip + 1
-  return await firestore
-    .collection(_collectionName)
-    .orderBy("created_at", "desc")
-    .limit(skip)
-    .get()
-    .then(async (documentSnapshots): Promise<DocsPager> => {
-      const lastDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1]
-      const res: DocsPager = await firestore
-        .collection(_collectionName)
-        .orderBy("created_at", "desc")
-        .startAt(lastDoc)
-        .limit(pageSize * 5)
-        .get()
-        .then((querySnapShot): DocsPager => {
-          const resFirestoreDocs = querySnapShot.docs.map((_doc) =>
-            doc2data(_doc),
-          )
-          return {
-            docs: resFirestoreDocs.slice(0, pageSize),
-            hasNextPage: resFirestoreDocs.length > pageSize ? true : false,
-            canSkip: resFirestoreDocs.length > pageSize * 4 + 1 ? true : false,
-          }
-        })
+// export const getCollection = async (
+//   _collectionName: string,
+//   _page: string | string = "1",
+//   _limit = 50,
+// ) => {
+//   const pageSize = _limit
+//   let skip = (Number(_page) - 1) * pageSize || 1
+//   if (skip > 1) skip = skip + 1
+//   return await firestore
+//     .collection(_collectionName)
+//     .orderBy("created_at", "desc")
+//     .limit(skip)
+//     .get()
+//     .then(async (documentSnapshots): Promise<DocsPager> => {
+//       const lastDoc = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+//       const res: DocsPager = await firestore
+//         .collection(_collectionName)
+//         .orderBy("created_at", "desc")
+//         .startAt(lastDoc)
+//         .limit(pageSize * 5)
+//         .get()
+//         .then((querySnapShot): DocsPager => {
+//           const resFirestoreDocs = querySnapShot.docs.map((_doc) =>
+//             doc2data(_doc),
+//           )
+//           return {
+//             docs: resFirestoreDocs.slice(0, pageSize),
+//             hasNextPage: resFirestoreDocs.length > pageSize ? true : false,
+//             canSkip: resFirestoreDocs.length > pageSize * 4 + 1 ? true : false,
+//           }
+//         })
 
-      return { ...res }
-    })
+//       return { ...res }
+//     })
 }
 
 export const where = async <T = any>(

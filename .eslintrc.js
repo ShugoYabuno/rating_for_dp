@@ -2,14 +2,21 @@ module.exports = {
   root: true,
   env: {
     browser: true,
+    commonjs: true,
+    es6: true,
     node: true
   },
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    sourceType: 'module'
+    parser: '@typescript-eslint/parser'
   },
-  extends: ['eslint:recommended', '@vue/typescript', 'prettier'],
-  plugins: ['@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    // "@vue/typescript",
+    'prettier'
+  ],
   // add your custom rules here
   rules: {}
 }
