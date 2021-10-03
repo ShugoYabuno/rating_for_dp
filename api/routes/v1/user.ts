@@ -2,7 +2,7 @@ import { Router } from "express"
 import { firestoreService } from "../../../composables/firestoreService"
 import bcrypt from "bcrypt"
 import { UserData, User } from "../../../interfaces"
-import { firestore } from "../../lib/firebase"
+// import { firestore } from "../../lib/firebase"
 import * as jwtToken from "../../functions/jwtToken"
 // import { passwordResetMail } from "../../mailer"
 // import { createRamdomString } from "../../../composables/functions"
@@ -40,13 +40,13 @@ router.post("/sign_up", async (req, res) => {
     if (!user) throw new Error("user is null")
 
     const userId = user.document_id
-    // const deviceToken = jwtToken.signDeviceToken(userId)
-    // const accessToken = jwtToken.signAccessToken(userId)
-    // const refreshToken = jwtToken.signRefreshToken(userId)
+    const deviceToken = jwtToken.signDeviceToken(userId)
+    const accessToken = jwtToken.signAccessToken(userId)
+    const refreshToken = jwtToken.signRefreshToken(userId)
 
-    // res.cookie("deviceToken", deviceToken, { httpOnly: true })
-    // res.cookie("accessToken", accessToken)
-    // res.cookie("refreshToken", refreshToken, { httpOnly: true })
+    res.cookie("deviceToken", deviceToken, { httpOnly: true })
+    res.cookie("accessToken", accessToken)
+    res.cookie("refreshToken", refreshToken, { httpOnly: true })
     res.status(200)
     return res.json({
       message: "success",
@@ -64,63 +64,64 @@ router.post("/sign_up", async (req, res) => {
   }
 })
 
-// router.post("/sign_in", async (req, res) => {
-//   try {
-//     const { email, password } = req.body.params
+router.post("/sign_in", async (req, res) => {
+  try {
+    const { data } = req.body.params
+    const { email = "", password = "" } = data
 
-//     const resUsers = await firestoreService.where<User>("users", "email", email)
-//     if (resUsers.status !== 200) throw resUsers.error
+    const resUsers = await firestoreService.where<User>("users", "email", email)
+    if (resUsers.status !== 200) throw resUsers.error
 
-//     const users = resUsers.data
+    const users = resUsers.data
 
-//     if (!users[0]) {
-//       res.status(200)
-//       return res.json({
-//         status: 200,
-//         canSignIn: false,
-//         message: "該当するユーザーは存在しません"
-//       })
-//     }
+    if (!users[0]) {
+      res.status(200)
+      return res.json({
+        status: 200,
+        canSignIn: false,
+        message: "該当するユーザーは存在しません"
+      })
+    }
 
-//     const isMatchPassword = bcrypt.compareSync(
-//       password,
-//       users[0].hashed_password || ""
-//     )
-//     if (!isMatchPassword) {
-//       res.status(200)
-//       return res.json({
-//         status: 200,
-//         canSignIn: false,
-//         message: "パスワードが間違っています"
-//       })
-//     }
+    const isMatchPassword = bcrypt.compareSync(
+      password,
+      users[0].hashedPassword || ""
+    )
+    if (!isMatchPassword) {
+      res.status(200)
+      return res.json({
+        status: 200,
+        canSignIn: false,
+        message: "パスワードが間違っています"
+      })
+    }
 
-//     const userId = users[0].document_id
-//     const deviceToken = jwtToken.signDeviceToken(userId)
-//     const accessToken = jwtToken.signAccessToken(userId)
-//     const refreshToken = jwtToken.signRefreshToken(userId)
+    const userId = users[0].document_id
+    const deviceToken = jwtToken.signDeviceToken(userId)
+    const accessToken = jwtToken.signAccessToken(userId)
+    const refreshToken = jwtToken.signRefreshToken(userId)
 
-//     res.cookie("deviceToken", deviceToken, { httpOnly: true })
-//     res.cookie("accessToken", accessToken)
-//     res.cookie("refreshToken", refreshToken, { httpOnly: true })
-//     res.status(200)
-//     return res.json({
-//       canSignIn: true,
-//       message: "success",
-//       user: {
-//         document_id: userId
-//       }
-//     })
-//   } catch (e) {
-//     console.log(e)
-//     res.status(400)
-//     return res.json({
-//       canSignIn: false,
-//       // message: errorMessage(e),
-//       message: "error"
-//     })
-//   }
-// })
+    res.cookie("deviceToken", deviceToken, { httpOnly: true })
+    res.cookie("accessToken", accessToken)
+    res.cookie("refreshToken", refreshToken, { httpOnly: true })
+    res.status(200)
+    return res.json({
+      canSignIn: true,
+      message: "success",
+      user: {
+        document_id: userId
+      }
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(400)
+    return res.json({
+      canSignIn: false,
+      // message: errorMessage(e),
+      message: "error"
+    })
+  }
+})
 
 // router.post("/sign_out", async (req, res) => {
 //   try {
