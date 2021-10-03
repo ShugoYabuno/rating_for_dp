@@ -45,8 +45,16 @@ export interface MatchData {
 }
 export interface Match extends MatchData, DocumentId, Timestamp {}
 
-export type CollectionName = "matchs"
+export interface UserData {
+  name: string
+  email: string
+  hashedPassword: string
+  rating: number
+}
+export interface User extends UserData, DocumentId, Timestamp {}
 
-export type ModelData = MatchData
+export type CollectionName = "matchs" | "users"
 
-export type Model = Match
+export type ModelData = MatchData | UserData
+
+export type Model = Match | User
