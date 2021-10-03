@@ -1,45 +1,34 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">rating_for_dp</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-      <button @click="test()">テスト</button>
+      <button @click="matchStart()">テスト</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api"
-import firestoreService from "~/composables/firestoreService"
+import { defineComponent, useRouter } from "@nuxtjs/composition-api"
+import { firestoreService } from "~/composables/firestoreService"
+import { Match } from "~/interfaces"
+// import axios from "~/plugins/axios"
 
 export default defineComponent({
   setup() {
-    const test = () => {
-      firestoreService.add("tests", {
-        name: "test"
+    const router = useRouter()
+
+    const matchStart = async () => {
+      const resMatchs = await firestoreService.add<Match>("matchs", {
+        userId1: "aaa",
+        userId2: "",
+        status: "waiting"
       })
+      if (resMatchs.status !== 200) return
+
+      router.push(`/match/${resMatchs.data.document_id}`)
     }
 
     return {
-      test
+      matchStart
     }
   }
 })

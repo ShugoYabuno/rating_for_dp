@@ -1,7 +1,7 @@
-import * as common from './common'
+import * as common from "./common"
 
-const firestoreService = {
+export const firestoreService = {
   ...common
 }
 
-export default firestoreService
+// export default firestoreService

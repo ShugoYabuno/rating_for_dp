@@ -33,13 +33,20 @@ interface DocumentId {
 // }
 // export interface User extends UserData, DocumentId, Timestamp {}
 
-export interface TestData {
-  [key: string]: unknown
+// export interface TestData {
+//   [key: string]: unknown
+// }
+// export interface Test extends TestData, DocumentId, Timestamp {}
+
+export interface MatchData {
+  userId1: string
+  userId2: string
+  status: "waiting"
 }
-export interface Test extends TestData, DocumentId, Timestamp {}
+export interface Match extends MatchData, DocumentId, Timestamp {}
 
-export type CollectionName = "tests"
+export type CollectionName = "matchs"
 
-export type ModelData = TestData
+export type ModelData = MatchData
 
-export type Model = Test
+export type Model = Match
