@@ -6,17 +6,22 @@ module.exports = {
     es6: true,
     node: true
   },
-  parser: 'vue-eslint-parser',
+  parser: "vue-eslint-parser",
   parserOptions: {
-    parser: '@typescript-eslint/parser'
+    parser: "@typescript-eslint/parser"
   },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     // "@vue/typescript",
-    'prettier'
+    "prettier"
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    "no-console": "off",
+    semi: 0,
+    // "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  }
 }

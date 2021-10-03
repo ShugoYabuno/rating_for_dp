@@ -21,23 +21,26 @@
           GitHub
         </a>
       </div>
+      <button @click="test()">テスト</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@nuxtjs/composition-api'
-import { firestore } from '~/plugins/firebase'
+import { defineComponent } from "@nuxtjs/composition-api"
+import firestoreService from "~/composables/firestoreService"
 
 export default defineComponent({
   setup() {
-    onMounted(async () => {
-      const collectionName = 'tests'
-      const tests = await firestore.collection(collectionName).get()
-      tests.docs.forEach((_doc) => {
-        console.log(_doc.data())
+    const test = () => {
+      firestoreService.add("tests", {
+        name: "test"
       })
-    })
+    }
+
+    return {
+      test
+    }
   }
 })
 </script>
