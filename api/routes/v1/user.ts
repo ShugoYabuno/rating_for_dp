@@ -21,8 +21,8 @@ const hashPassword = (_password: string) => {
 
 router.post("/sign_up", async (req, res) => {
   try {
-    const { data } = req.body.params
-    const { name = "", email = "", password = "" } = data
+    const { email, password, data } = req.body.params
+    const { name = "" } = data
 
     const hashedPassword = hashPassword(password)
     const userData: UserData = {
@@ -66,8 +66,7 @@ router.post("/sign_up", async (req, res) => {
 
 router.post("/sign_in", async (req, res) => {
   try {
-    const { data } = req.body.params
-    const { email = "", password = "" } = data
+    const { email, password } = req.body.params
 
     const resUsers = await firestoreService.where<User>("users", "email", email)
     if (resUsers.status !== 200) throw resUsers.error

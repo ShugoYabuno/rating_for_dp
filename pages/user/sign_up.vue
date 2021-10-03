@@ -12,8 +12,9 @@
 <script lang="ts">
 import { defineComponent, reactive } from "@nuxtjs/composition-api"
 // import { firestoreService } from "~/composables/firestoreService"
-import { User } from "~/interfaces"
-import axios from "~/plugins/axios"
+// import { User } from "~/interfaces"
+// import axios from "~/plugins/axios"
+import { useUserProvider } from "~/state"
 
 export default defineComponent({
   setup() {
@@ -30,15 +31,16 @@ export default defineComponent({
         password: ""
       }
     })
+    const { userProvider } = useUserProvider()
 
     const handleSignUp = async () => {
-      const res = await axios.post<{
-        user: User
-      }>("/api/v1/user/sign_up", {
-        params: {
-          data: state.form
+      const res = await userProvider?.signUp(
+        state.form.email,
+        state.form.password,
+        {
+          name: state.form.name
         }
-      })
+      )
 
       console.log(res)
     }
