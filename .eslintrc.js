@@ -21,7 +21,7 @@ module.exports = {
   rules: {
     "no-console": "off",
     semi: 0,
-    // "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
