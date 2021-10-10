@@ -44,6 +44,7 @@ export const userProvider = () => {
     return await axios.get<{
       message: string
       user: {
+        id: string
         tel: string
         name: string
         name_kana: string

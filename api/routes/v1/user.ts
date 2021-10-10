@@ -258,48 +258,36 @@ router.post("/sign_in", async (req, res) => {
 //   }
 // })
 
-// router.use(jwtToken.jwtMiddleware())
+router.use(jwtToken.jwtMiddleware())
 
-// // 以下ログイン必須処理
-// router.get("/", async (req, res) => {
-//   try {
-//     const { userId = "" } = res.locals
+// 以下ログイン必須処理
+router.get("/", async (req, res) => {
+  try {
+    const { userId = "" } = res.locals
 
-//     const resUsers = await firestoreService.getById<User>(
-//       "users",
-//       userId,
-//       firestore
-//     )
-//     if (resUsers.status !== 200) throw resUsers.error
+    const resUsers = await firestoreService.getById<User>("users", userId)
+    if (resUsers.status !== 200) throw resUsers.error
 
-//     const user = resUsers.data
-//     if (!user) throw new Error("user is not found")
+    const user = resUsers.data
+    if (!user) throw new Error("user is not found")
 
-//     res.status(200)
-//     return res.json({
-//       message: "success",
-//       user: {
-//         tel: user.tel,
-//         name: user.name,
-//         name_kana: user.name_kana,
-//         email: user.email,
-//         zip_code: user.zip_code,
-//         prefecture: user.prefecture,
-//         address_line1: user.address_line1,
-//         address_line2: user.address_line2,
-//         shipped_addresses: user.shipped_addresses,
-//         receive_mail: user.receive_mail
-//       }
-//     })
-//   } catch (e) {
-//     console.log(e)
-//     res.status(400)
-//     return res.json({
-//       // message: errorMessage(e),
-//       message: "error"
-//     })
-//   }
-// })
+    res.status(200)
+    return res.json({
+      message: "success",
+      user: {
+        id: user.document_id,
+        name: user.name
+      }
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(400)
+    return res.json({
+      // message: errorMessage(e),
+      message: "error"
+    })
+  }
+})
 
 router.post("/auth", async (req, res) => {
   try {
