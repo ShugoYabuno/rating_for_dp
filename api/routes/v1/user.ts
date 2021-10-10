@@ -301,21 +301,21 @@ router.post("/sign_in", async (req, res) => {
 //   }
 // })
 
-// router.post("/auth", async (req, res) => {
-//   try {
-//     res.status(200)
-//     return res.json({
-//       message: "success"
-//     })
-//   } catch (e) {
-//     console.log(e)
-//     res.status(400)
-//     return res.json({
-//       // message: errorMessage(e),
-//       message: "error"
-//     })
-//   }
-// })
+router.post("/auth", async (req, res) => {
+  try {
+    res.status(200)
+    return res.json({
+      message: "success"
+    })
+  } catch (e) {
+    console.log(e)
+    res.status(400)
+    return res.json({
+      // message: errorMessage(e),
+      message: "error"
+    })
+  }
+})
 
 // router.post("/update", async (req, res) => {
 //   try {

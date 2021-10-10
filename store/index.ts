@@ -1,10 +1,6 @@
 import { GetterTree, ActionTree, MutationTree } from "vuex"
 
 export const state = () => ({
-  coupon: {
-    document_id: "",
-    email: ""
-  },
   user: {
     isSigned: false,
     document_id: "",
@@ -20,7 +16,8 @@ interface UserPayload {
 }
 
 export const getters: GetterTree<RootState, RootState> = {
-  isSigned: (state) => state.user.isSigned
+  isSigned: (state) => state.user.isSigned,
+  userId: (state) => state.user.document_id
 }
 
 export const mutations: MutationTree<RootState> = {

@@ -75,6 +75,7 @@ export const userProvider = () => {
         password: _password
       }
     })
+
     if (!resSignIn || resSignIn.status !== 200) {
       // toast?.showErrorToasted("ログイン処理でエラーが発生しました")
       return resSignIn
