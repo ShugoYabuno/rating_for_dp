@@ -11,24 +11,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ssrRef, useAsync } from "@nuxtjs/composition-api"
-import { firestoreService } from "~/composables/firestoreService"
-import { Match } from "~/interfaces"
+import { defineComponent, ssrRef } from "@nuxtjs/composition-api"
+// import { firestoreService } from "~/composables/firestoreService"
+// import { Match } from "~/interfaces"
 
 export default defineComponent({
   setup() {
-    const matchesRef = ssrRef<Match[]>([])
+    const matchesRef = ssrRef([])
 
-    useAsync(async () => {
-      const resMatches = await firestoreService.where(
-        "matchs",
-        "status",
-        "waiting"
-      )
-      if (resMatches.status !== 200) return
+    // useAsync(async () => {
+    //   const resMatches = await firestoreService.where(
+    //     "matchs",
+    //     "status",
+    //     "waiting"
+    //   )
+    //   if (resMatches.status !== 200) return
 
-      matchesRef.value = resMatches.data
-    })
+    //   matchesRef.value = resMatches.data
+    // })
 
     console.log(matchesRef.value)
 

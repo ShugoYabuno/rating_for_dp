@@ -276,7 +276,8 @@ router.get("/", async (req, res) => {
       message: "success",
       user: {
         id: user.document_id,
-        name: user.name
+        name: user.name,
+        rating: user.rating
       }
     })
   } catch (e) {

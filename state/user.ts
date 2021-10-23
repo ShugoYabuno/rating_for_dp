@@ -45,16 +45,8 @@ export const userProvider = () => {
       message: string
       user: {
         id: string
-        tel: string
         name: string
-        name_kana: string
-        email: string
-        zip_code: string
-        prefecture: string
-        address_line1: string
-        address_line2: string
-        shipped_addresses: string
-        receive_mail: "all" | "denied"
+        rating: number
       }
     }>("/api/v1/user")
   }

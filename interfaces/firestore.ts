@@ -38,12 +38,15 @@ interface DocumentId {
 // }
 // export interface Test extends TestData, DocumentId, Timestamp {}
 
-export interface MatchData {
-  userId1: string
-  userId2: string
+export interface RatingMatchWaitingData {
+  userId: string
+  rating: number
   status: "waiting"
 }
-export interface Match extends MatchData, DocumentId, Timestamp {}
+export interface RatingMatchWaiting
+  extends RatingMatchWaitingData,
+    DocumentId,
+    Timestamp {}
 
 export interface UserData {
   name: string
@@ -53,8 +56,8 @@ export interface UserData {
 }
 export interface User extends UserData, DocumentId, Timestamp {}
 
-export type CollectionName = "matchs" | "users"
+export type CollectionName = "ratingMatchWaitings" | "users"
 
-export type ModelData = MatchData | UserData
+export type ModelData = RatingMatchWaitingData | UserData
 
-export type Model = Match | User
+export type Model = RatingMatchWaiting | User

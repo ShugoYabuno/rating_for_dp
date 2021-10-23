@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, useRouter } from "@nuxtjs/composition-api"
 import { firestoreService } from "~/composables/firestoreService"
-import { Match } from "~/interfaces"
+import { RatingMatchWaiting } from "~/interfaces"
 import { useUserProvider } from "~/state"
 
 export default defineComponent({
@@ -22,14 +22,17 @@ export default defineComponent({
       if (resUsers?.status !== 200) return
 
       const user = resUsers.data.user
-      const resMatchs = await firestoreService.add<Match>("matchs", {
-        userId1: user.id,
-        userId2: "",
-        status: "waiting"
-      })
+      const resMatchs = await firestoreService.add<RatingMatchWaiting>(
+        "ratingMatchWaitings",
+        {
+          userId: user.id,
+          rating: user.rating,
+          status: "waiting"
+        }
+      )
       if (resMatchs.status !== 200) return
 
-      router.push(`/match/${resMatchs.data.document_id}`)
+      router.push(`/match/waiting`)
     }
 
     return {
